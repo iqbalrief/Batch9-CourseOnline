@@ -41,6 +41,10 @@ const Users = sequelize.define('users', {
       },
     ]
   });
+   // table Countries belong to Regions, pastikan relasi fk di set sesuai relasi di table, 
+   Users.associate = models => {
+    Users.hasMany(models.Course,{foreignKey: 'cors_user_id', onDelete: 'CASCADE'});
+  };
   return Users;
 };
 export default users;

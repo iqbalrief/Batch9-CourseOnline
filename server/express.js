@@ -22,14 +22,25 @@ app.use(compress())
 app.use(cors());
 
 
+//1. client-side
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import MainRouter from './../client/MainRouter'
+import { StaticRouter } from 'react-router-dom'
+import Template from './../template'
 
 //comment script dibawah before building for production
+import devBundle from './devBundle'
+//comment script dibawah before building for production
+// client-side: gunakan ketika development only
+devBundle.compile(app)
+
 const CURRENT_WORKING_DIR = process.cwd()
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
 
 
-app.use("/hr/api/v1/test", (req, res) => {
-    res.send("Hello HR-Fullstack")
+app.use("/course/api/v1/test", (req, res) => {
+    res.send("Hello Course-Online")
 });
 
 // #middleware
@@ -43,8 +54,23 @@ app.use('/api/users',routes.usersRoute);
 app.use('/api/course', routes.courseroute);
 app.use('/api/Coursecontent', routes.Coursecontentroute);
 app.use('/api/Orders', routes.ordersRoute);
-app.use('/api/upload',routes.courseroute);
+//app.use('/api/upload',routes.courseroute);
 
+//2. Client-Side : ReactDOMServer.
+app.get('/courseonline/*', (req, res) => {
+
+    const context = {}
+    const markup = ReactDOMServer.renderToString(
+      <StaticRouter location={req.url} context={context}>
+        <MainRouter />
+      </StaticRouter>
+    );
+    if (context.url) {
+      return res.redirect(303, context.url)
+    }
+  
+    res.status(200).send(Template())
+  });
 
 
 // Catch unauthorised errors

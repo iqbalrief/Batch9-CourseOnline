@@ -150,5 +150,6 @@ export default {
     rawSQL,
     signin,
     signup,
-    signout
+    signout,
+    requireSignin,
 }

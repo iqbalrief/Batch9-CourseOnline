@@ -4,7 +4,7 @@ import { sequelize } from '../../config/config-db';
 import users from '../models/users';
  */
 
-//findAll = select * from regions
+//findAll = select * from orders
 const findAll = async (req, res) => {
     const orders = await req.context.models.Orders.findAll();
     return res.send(orders);

@@ -69,6 +69,11 @@ const Course =  sequelize.define('course', {
         },
       ]
   });
+
+   // table Countries belong to Regions, pastikan relasi fk di set sesuai relasi di table, 
+   Course.associate = models => {
+    Course.belongsTo(models.Users,{foreignKey: 'cors_user_id'});
+  };
   return Course;
 };
 export default course;

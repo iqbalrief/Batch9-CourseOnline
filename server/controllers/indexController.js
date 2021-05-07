@@ -13,5 +13,5 @@ export default {
     ordersCtrl,
     uploadCtrl,
     downloadCtrl,
-    uploadCourseContentCtrl
+    uploadCourseContentCtrl,
 }

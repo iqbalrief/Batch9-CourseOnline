@@ -6,7 +6,16 @@ import users from '../models/users';
 
 //findAll = select * from regions
 const findAll = async (req, res) => {
-    const course = await req.context.models.Course.findAll();
+    const course = await req.context.models.Course.findAll(
+    {
+        include: [{
+            model: req.context.models.Users
+        }],
+        order: [
+            ['cors_user_id', 'ASC'],
+        ],
+    }
+    );
     return res.send(course);
 }
 
@@ -54,14 +63,14 @@ const update = async (req, res) => {
     return res.send(course); 
 }
 //upload
-const updated = async (req, res) => {
+/* const updated = async (req, res) => {
     console.log(req.fileName);
     const result = await req.context.models.Course.update(
         { cors_image: req.fileName },
         { returning: true, where: { cors_id: parseInt(req.params.id) } }
     );
     return res.send(result);
-}
+} */
 
 //remove
 const remove = async (req, res) => {
@@ -135,7 +144,7 @@ export default {
     update,
     remove,
     rawSQL,
-    updated,
+    //updated,
     created,
-    createImage
+    createImage,
 }
